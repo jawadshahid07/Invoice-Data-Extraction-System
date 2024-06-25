@@ -1,0 +1,6 @@
+train: ./train/images
+val: ./valid/images
+test: ./test/images
+
+nc: 14
+names: ['BA', 'BAID', 'INV', 'INV_DATE', 'INV_DATE_ID', 'INV_ID', 'ORD_DATE', 'ORD_DATE_ID', 'SA', 'SAID', 'SLR', 'SLR_ID', 'TOTAL', 'TOTAL_ID']
