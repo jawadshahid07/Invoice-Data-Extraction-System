@@ -55,13 +55,13 @@ This project aims to automate the extraction of data from invoice images using a
 The final output will be an Excel sheet with the extracted data, organized with appropriate headings.
 
 ## Screenshots
-![YOLOv8 Detection](screenshots/prediction.jpg)
+![YOLOv8 Detection](screenshots/prediction.jpg)  
 *Caption: YOLOv8 detecting fields on an invoice.*
 
-![Label 1](savedimages/TOTAL_ID_3.png) ![Label 2](savedimages/TOTAL_2.png) ![Label 3](savedimages/INV_DATE_ID_1.png) ![Label 4](savedimages/INV_DATE_7.png)
+![Label 1](savedimages/TOTAL_ID_3.png) ![Label 2](savedimages/TOTAL_2.png) ![Label 3](savedimages/INV_DATE_ID_1.png) ![Label 4](savedimages/INV_DATE_7.png)  
 *Caption: Results of the prediction code, separating each label into it's own image*
 
-![Excel Output](screenshots/exceldata.png)
+![Excel Output](screenshots/exceldata.png)  
 *Caption: Extracted data saved in an Excel sheet.*
 
 ## Contributing
