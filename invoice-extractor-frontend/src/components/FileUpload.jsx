@@ -54,36 +54,40 @@ const FileUpload = ({ onUpload }) => {
   };
 
   const renderFilePreviews = () => {
-    return selectedFiles.map((file, index) => {
-      const fileUrl = URL.createObjectURL(file);
-      return (
-        <div key={index} className="relative mt-2 flex items-center">
-          {file.type.startsWith('image/') ? (
-            <img
-              src={fileUrl}
-              alt={file.name}
-              className="w-32 h-32 object-cover rounded-lg"
-            />
-          ) : (
-            <div className="bg-gray-200 p-2 rounded text-center">{file.name}</div>
-          )}
-          <button
-            type="button"
-            onClick={() => handleRemoveFile(index)}
-            className="absolute top-1 left-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
-            style={{ zIndex: 10 }}
-          >
-            <XIcon className="h-4 w-4" />
-          </button>
-        </div>
-      );
-    });
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {selectedFiles.map((file, index) => {
+          const fileUrl = URL.createObjectURL(file);
+          return (
+            <div key={index} className="relative flex items-center">
+              {file.type.startsWith('image/') ? (
+                <img
+                  src={fileUrl}
+                  alt={file.name}
+                  className="w-full h-32 object-cover rounded-lg"
+                />
+              ) : (
+                <div className="bg-cream dark:bg-gray-700 p-2 rounded text-center">{file.name}</div>
+              )}
+              <button
+                type="button"
+                onClick={() => handleRemoveFile(index)}
+                className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
+                style={{ zIndex: 10 }} // Lower z-index value for the cross button
+              >
+                <XIcon className="h-4 w-4" />
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
     <>
       <div
-        className={`mb-4 ${dragOver ? 'border-blue-500 bg-gray-100' : 'border-gray-400'} border-2 border-dashed rounded-lg`}
+        className={`relative mb-4 ${dragOver ? 'border-gray-500 bg-cream dark:bg-gray-700' : 'border-gray-300 dark:border-gray-600'} border-2 border-dashed rounded-lg`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -92,7 +96,7 @@ const FileUpload = ({ onUpload }) => {
           htmlFor="file-upload"
           className="flex flex-col items-center justify-center w-full h-32 cursor-pointer"
         >
-          <UploadIcon className="h-12 w-12 text-gray-400" />
+          <UploadIcon className="h-12 w-12 text-gray-500 dark:text-cream" />
           <span className="mt-2 text-base leading-normal">
             {selectedFiles.length > 0
               ? `${selectedFiles.length} file(s) selected`
@@ -116,12 +120,14 @@ const FileUpload = ({ onUpload }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              style={{ zIndex: 20 }} // Higher z-index value for the modal
             >
               <motion.div
-                className="bg-white rounded-lg p-6 max-w-sm mx-4"
+                className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm mx-4"
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.9 }}
+                style={{ zIndex: 21 }} // Ensure modal content has a higher z-index
               >
                 <h3 className="text-lg font-semibold">Unsupported File Type</h3>
                 <p className="mt-2">Only PDF, JPEG, and PNG files are supported. Please select a different file.</p>
@@ -137,7 +143,7 @@ const FileUpload = ({ onUpload }) => {
         </AnimatePresence>
       </div>
       <button
-        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
+        className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
         type="button"
         onClick={handleUpload}
       >
