@@ -21,14 +21,14 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   origin {
-    domain_name = "8kv6z33bj8.execute-api.us-east-1.amazonaws.com"
+    domain_name = "${aws_api_gateway_rest_api.example.execution_arn}.execute-api.${var.region}.amazonaws.com"
     origin_id   = "APIGateway-${aws_api_gateway_rest_api.example.id}"
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
       http_port              = 80
       https_port             = 443
-      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
