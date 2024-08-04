@@ -3,17 +3,11 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = "Access identity for my S3 bucket"
 }
 
-# Declare the API Gateway
-resource "aws_api_gateway_rest_api" "example" {
-  name        = "example-api"
-  description = "Example API for CloudFront"
-}
-
 # CloudFront Distribution
 resource "aws_cloudfront_distribution" "cdn" {
   origin {
     domain_name = aws_s3_bucket.website_bucket.bucket_regional_domain_name
-    origin_id   = "S3-${aws_s3_bucket.website_bucket.id}"
+    origin_id = "S3-${aws_s3_bucket.website_bucket.bucket}"
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
@@ -21,8 +15,8 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   origin {
-    domain_name = "${aws_api_gateway_rest_api.example.execution_arn}.execute-api.${var.region}.amazonaws.com"
-    origin_id   = "APIGateway-${aws_api_gateway_rest_api.example.id}"
+    domain_name = "${aws_api_gateway_rest_api.invoice_api.execution_arn}.execute-api.${var.region}.amazonaws.com"
+    origin_id = "APIGateway-${aws_api_gateway_rest_api.invoice_api.id}"
 
     custom_origin_config {
       origin_protocol_policy = "https-only"
@@ -57,17 +51,17 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/prod/task*"
-    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "APIGateway-${aws_api_gateway_rest_api.example.id}"
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "none"
-      }
-      headers = ["Origin", "Access-Control-Request-Headers", "Access-Control-Request-Method"]
+  path_pattern           = "/invoice"
+  allowed_methods        = ["HEAD", "POST", "OPTIONS"]
+  cached_methods         = ["GET", "HEAD"]
+  target_origin_id       = "APIGateway-${aws_api_gateway_rest_api.invoice_api.id}"
+  forwarded_values {
+    query_string = true
+    cookies {
+      forward = "none"
     }
+    headers = ["Origin", "Access-Control-Request-Headers", "Access-Control-Request-Method"]
+  }
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0

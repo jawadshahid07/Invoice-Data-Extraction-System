@@ -1,0 +1,7 @@
+opencv-python-headless
+pytesseract
+pandas
+pdf2image
+ultralytics
+openpyxl
+json
