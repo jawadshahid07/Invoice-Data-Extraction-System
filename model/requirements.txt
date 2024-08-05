@@ -1,6 +1,0 @@
-opencv-python
-pytesseract
-pandas
-openpyxl
-numpy
-ultralytics
